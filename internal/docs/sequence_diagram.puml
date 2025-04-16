@@ -1,0 +1,16 @@
+@startuml
+actor User
+participant "HTTP Handler" as Handler
+participant "CommentService" as Service
+participant "CommentRepository" as Repo
+participant "Database" as DB
+
+User -> Handler: POST /comments
+Handler -> Service: CreateComment(data)
+Service -> Repo: Insert(comment)
+Repo -> DB: Execute SQL INSERT
+DB --> Repo: Result
+Repo --> Service: Comment saved
+Service --> Handler: Return response
+Handler --> User: HTTP 201 Created
+@enduml
